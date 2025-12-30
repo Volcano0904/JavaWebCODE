@@ -1,0 +1,28 @@
+package com.campus.userservice.repository;
+
+import com.campus.userservice.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+/**
+ * 用户Repository
+ */
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByUsername(String username);
+    
+    Optional<User> findByEmail(String email);
+    
+    Optional<User> findByStudentId(String studentId);
+    
+    boolean existsByUsername(String username);
+    
+    boolean existsByEmail(String email);
+    
+    @Query("SELECT COUNT(u) FROM User u WHERE u.college = :college")
+    Long countByCollege(@Param("college") String college);
+}
